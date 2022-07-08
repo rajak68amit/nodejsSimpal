@@ -11,8 +11,6 @@ const courses =[
 app.get('/', (req,res)=>{
     res.send('hello world hello')
 })
-
-
 app.get('/api/hello/', (req,res)=>{
     res.send([1,2,3])
 })
@@ -20,7 +18,6 @@ app.get('/api/hello/', (req,res)=>{
 app.get('/api/course',(req,res)=>{
     res.send(courses)
 })
-
 app.get('/api/course/:id', (req,res)=>{
    let course = courses.find(c=>c.id === parseInt(req.params.id))
 
@@ -31,7 +28,6 @@ app.get('/api/post/:year/:month',(req,res)=>{
     res.send(req.params);
 })
 app.post('/api/course',(req,res)=>{
-
     const { error } = ValidateCourse(req.body);
     if(error) return res.status(400).send(error.details[0].message);
       
@@ -42,7 +38,6 @@ app.post('/api/course',(req,res)=>{
     courses.push(course)
     res.send(courses)
 })
-
 app.put('/api/course/:id', (req, res) => {
     let course = courses.find(c => c.id === parseInt(req.params.id))
     if (!course) return  res.status(404).send('The course with given Id was not found')
@@ -51,7 +46,6 @@ app.put('/api/course/:id', (req, res) => {
     course.name === req.body.name;
     res.send(course);
 })
-
 app.delete('/api/course/:id', (req, res)=> {
     let course = courses.find(c => c.id === parseInt(req.params.id))
     if (!course) return res.status(404).send('The course with given Id was not found')
@@ -60,14 +54,11 @@ app.delete('/api/course/:id', (req, res)=> {
     res.send(course)
 
 })
-
 function ValidateCourse(course) {
     const schema = Joi.object({
         name: Joi.string().min(6).required()
     })
     return schema.validate(course);
 }
-
 const port =process.env.PORT ||9003;
-
 app.listen(port, () => console.log(`listening on port ${port}`));
